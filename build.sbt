@@ -12,3 +12,5 @@ libraryDependencies ++= Seq(
   cache,
   ws
 )
+
+com.jamesward.play.BrowserNotifierKeys.shouldOpenBrowser := false
