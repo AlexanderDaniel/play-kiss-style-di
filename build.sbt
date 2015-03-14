@@ -1,4 +1,4 @@
-name := """play-di"""
+name := """play-kiss-style-di"""
 
 version := "1.0-SNAPSHOT"
 

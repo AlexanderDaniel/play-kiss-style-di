@@ -2,7 +2,7 @@ import controllers.Raffle
 import play.api.{Play, Logger}
 import play.api.mvc.Controller
 import repositories.{ThermalNoiseTrueRandomNumberRepo, MeetupMembersRepo}
-import services.DefaultRandomNumberService
+import services.{DefaultRaffleService, DefaultRandomNumberService}
 import play.api.Play.current
 
 object Global extends play.api.GlobalSettings {
@@ -22,9 +22,10 @@ object KissStyleDI {
     val trueRandomNumberRepo = new ThermalNoiseTrueRandomNumberRepo(configString("thermalNoise.port"))
 
     val randomNumberService = new DefaultRandomNumberService(trueRandomNumberRepo.retrieve)
+    val raffleService = new DefaultRaffleService(membersRepo, randomNumberService)
 
     Seq[Controller](
-      new Raffle(membersRepo, randomNumberService)
+      new Raffle(raffleService)
     )
   }
 
