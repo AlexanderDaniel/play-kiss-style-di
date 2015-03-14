@@ -19,7 +19,7 @@ class DefaultRaffleServiceSpec extends PlaySpec with MockitoSugar {
       when(mockRandomService.nextInt(3)) thenReturn 0
       val raffleService = new DefaultRaffleService(mockMembersRepo, mockRandomService)
 
-      await(raffleService.raffle) mustBe Member("a")
+      await(raffleService.raffle) mustBe Some(Member("a"))
     }
 
     "handle when there a no members" in {

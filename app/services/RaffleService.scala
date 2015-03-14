@@ -5,5 +5,5 @@ import repositories.Member
 import scala.concurrent.Future
 
 trait RaffleService {
-  def raffle: Future[Member]
+  def raffle: Future[Option[Member]]
 }
