@@ -1,8 +1,8 @@
-import controllers.Raffle
+import controllers.{DependencyInjection, Raffle}
 import play.api.{Play, Logger}
 import play.api.mvc.Controller
-import repositories.{ThermalNoiseTrueRandomNumberRepo, MeetupMembersRepo}
-import services.{DefaultRaffleService, DefaultRandomNumberService}
+import repositories.{BrainScannerRepo, ThermalNoiseTrueRandomNumberRepo, MeetupMembersRepo}
+import services.{BrainScanAnalyserService, DefaultRaffleService, DefaultRandomNumberService}
 import play.api.Play.current
 
 object Global extends play.api.GlobalSettings {
@@ -20,12 +20,15 @@ object KissStyleDI {
   private def buildControllersViaConstructorInjection: Seq[Controller] = {
     val membersRepo = new MeetupMembersRepo(configString("meetup.apiKey"))
     val trueRandomNumberRepo = new ThermalNoiseTrueRandomNumberRepo(configString("thermalNoise.port"))
+    val brainScannerRepo = new BrainScannerRepo
 
     val randomNumberService = new DefaultRandomNumberService(trueRandomNumberRepo.retrieve)
     val raffleService = new DefaultRaffleService(membersRepo, randomNumberService)
+    val brainAnalyserService = new BrainScanAnalyserService(brainScannerRepo)
 
     Seq[Controller](
-      new Raffle(raffleService)
+      new Raffle(raffleService),
+      new DependencyInjection(brainAnalyserService)
     )
   }
 
