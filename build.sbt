@@ -14,3 +14,5 @@ libraryDependencies ++= Seq(
 )
 
 com.jamesward.play.BrowserNotifierKeys.shouldOpenBrowser := false
+
+libraryDependencies += "org.scalatestplus" %% "play" % "1.1.0" % "test"
