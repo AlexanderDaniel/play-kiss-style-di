@@ -1,11 +1,21 @@
 @(message: String)
 
-@main("Play Dependency Injection (DI)") {
+@main("KISS-style DI with Play") {
 
-    <h1>How does Dependency Injection (DI) work in Play?</h1>
+    <h1>KISS-style DI with Play</h1>
+    <p>How does dependency injection work in Play? How can a no framework dependency injection be implemented with Play? Pros and cons. </p>
 
     <p>
-        <a href="https://www.playframework.com/documentation/2.3.x/ScalaDependencyInjection" target="_blank">Scala Dependency Injection</a>
+        <a href="http://en.wikipedia.org/wiki/KISS_principle">KISS</a> is an acronym for »Keep it simple, stupid«.
+        Leonardo da Vinci said it more beautiful: »Simplicity is the ultimate sophistication«.
+    </p>
+
+    <p>
+        <a href="@routes.DependencyInjection.explain()">Why you should use dependency injection?</a>
+    </p>
+
+    <p>
+        <a href="https://www.playframework.com/documentation/2.3.x/ScalaDependencyInjection" target="_blank">How does dependency injection work in Play?</a>
     </p>
 
     <p>
