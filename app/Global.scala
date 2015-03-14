@@ -10,27 +10,37 @@ object Global extends play.api.GlobalSettings {
   private val injector = KissStyleDI
 
   override def getControllerInstance[A](controllerClass: Class[A]): A = {
-    Logger.warn(s"Global.getControllerInstance for $controllerClass")
-    injector.getInstance(controllerClass)
-      .getOrElse(super.getControllerInstance(controllerClass))
+    Logger.info(s"Global.getControllerInstance for $controllerClass")
+    injector.getInstance(controllerClass).getOrElse(super.getControllerInstance(controllerClass))
   }
 }
 
 object KissStyleDI {
-  val meetupApiKey = "dasdas" // TODO Play.configuration.getString("meetup.apiKey").getOrElse(???)
-  val membersRepo = new MeetupMembersRepo(meetupApiKey)
 
-  val trueRandomNumberRepo = new ThermalNoiseTrueRandomNumberRepo("usb:0x23")
+  private def buildControllersViaConstructorInjection: Seq[Controller] = {
+    val membersRepo = new MeetupMembersRepo(configString("meetup.apiKey"))
+    val trueRandomNumberRepo = new ThermalNoiseTrueRandomNumberRepo(configString("thermalNoise.port"))
 
-  val randomNumberService = new DefaultRandomNumberService(trueRandomNumberRepo.retrieve)
+    val randomNumberService = new DefaultRandomNumberService(trueRandomNumberRepo.retrieve)
 
-  val controllers = Seq[Controller](
-    new Raffle(membersRepo, randomNumberService)
-  )
-  val lookup: Map[Class[_], Controller] = controllers.map(c => (c.getClass, c))
-    .toMap
-
-  def getInstance[A](controllerClass: Class[A]): Option[A] = {
-    lookup.get(controllerClass).map(_.asInstanceOf[A])
+    Seq[Controller](
+      new Raffle(membersRepo, randomNumberService)
+    )
   }
+
+  private def buildLookup(controllers: Seq[Controller]): Map[Class[_], Controller] =
+    controllers.map(c => (c.getClass, c)).toMap
+
+  /**
+   * `lazy` because a running Play app is needed for retrieving configuration keys (The `Global` object
+   * and hence `KissStyleDI` gets constructed before the Play app is running)
+   */
+  private lazy val lookup: Map[Class[_], Controller] =
+    buildLookup(buildControllersViaConstructorInjection)
+
+  def getInstance[A](controllerClass: Class[A]): Option[A] =
+    lookup.get(controllerClass).map(_.asInstanceOf[A])
+
+  private def configString(path: String): String =
+    Play.configuration.getString(path).getOrElse(sys.error(s"Missing configuration key: $path"))
 }
