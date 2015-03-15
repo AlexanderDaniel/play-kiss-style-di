@@ -13,4 +13,8 @@ object Application extends Controller {
     Ok(views.html.resources())
   }
 
+  def prosandcons = Action {
+    Ok(views.html.prosandcons())
+  }
+
 }
