@@ -17,4 +17,11 @@ object Application extends Controller {
     Ok(views.html.prosandcons())
   }
 
+  def twofour() = Action {
+    Ok(views.html.twoFour())
+  }
+
+  def kiss() = Action {
+    Ok(views.html.kiss())
+  }
 }

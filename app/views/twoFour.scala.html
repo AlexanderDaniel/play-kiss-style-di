@@ -1,0 +1,37 @@
+@()
+
+@main("2.4") {
+
+    <h1>Outlook to 2.4</h1>
+
+    <p>
+        <strong>Out of the box, Play provides runtime dependency injection based on JSR 330.</strong>
+        Runtime dependency injection
+        is so called because the dependency graph is created, wired and validated at runtime. If a dependency
+        cannot be found for a particular component, you won’t get an error until you run your application.
+        <a href="https://www.playframework.com/documentation/2.4.x/ScalaDependencyInjection">[src]</a>
+    </p>
+    <p>
+        <strong>Out of the box we provide and encourage the use of Guice for dependency injection</strong>, but many other
+        dependency injection tools and techniques, including compile time dependency injection techniques
+        in Scala are possible.
+        <a href="https://www.playframework.com/documentation/2.4.0-M2/Migration24">[src]</a>
+    </p>
+
+    <p>
+        One aim of dependency injection is to eliminate global state, such as singletons. Play 2 was designed
+        with an assumption of global state. Play 3 will hopefully remove this global state,
+        however that is a major breaking task. In the meantime, Play will be a bit of a hybrid state,
+        with some parts not using global state, and other parts using global state.
+        <a href="https://www.playframework.com/documentation/2.4.x/ScalaCompileTimeDependencyInjection">[src]</a>
+    </p>
+    <p>
+        Compile time dependency injection looks different in Play 2.4:
+        <a href="https://www.playframework.com/documentation/2.4.x/ScalaCompileTimeDependencyInjection#Providing-a-router">Providing a router</a>
+    </p>
+
+
+
+
+
+}
